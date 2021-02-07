@@ -5,6 +5,7 @@ import {
 } from "next";
 import { getSession, Session } from "next-auth/client";
 import _ from "lodash";
+import config from "./config";
 
 // A higher order function that makes a getServerSideProps function, handling authentication
 const makeAuthentication = (getServerSideProps?: GetServerSideProps) => {
@@ -18,7 +19,7 @@ const makeAuthentication = (getServerSideProps?: GetServerSideProps) => {
 
     return _.merge(serverSideResult, {
       props: { session },
-      redirect: !!session && { destination: "/login", permanent: false },
+      redirect: !!session && { destination: config.routes.login, permanent: false },
     });
   };
 };

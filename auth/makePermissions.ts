@@ -5,12 +5,19 @@ import {
 } from "next";
 import { getSession, Session } from "next-auth/client";
 import _ from "lodash";
+import config from "./config";
 
-export type Permission = (session: Session) => Boolean | Promise<Boolean>;
+export type PermissionResult = {
+  allowed: Boolean | Promise<Boolean>;
+  errorMessage?: string;
+};
+export type Permission = (
+  session: Session
+) => PermissionResult | Promise<PermissionResult>;
 
 // A higher order function that makes a getServerSideProps function, handling authorization
 const makePermissions = (
-  permission: Permission,
+  permissions: Permission[],
   getServerSideProps?: GetServerSideProps
 ) => {
   return async (
@@ -21,17 +28,35 @@ const makePermissions = (
       : { props: {} };
     const session = await getSession(context);
 
+    // If the user is not authenticated, redirects to the login page
     if (!session) {
       return {
         props: {},
-        redirect: { destination: "/login", permanent: false },
+        redirect: { destination: config.routes.login, permanent: false },
       };
     }
 
-    const allowed = await permission(session);
-    return allowed
-      ? _.merge(serverSideResult, { props: { session } })
-      : { props: { session } };
+    const handlePermissions = async (
+      permissions: Permission[],
+      session: Session
+    ) => {
+      for (const permission of permissions) {
+        const { allowed, errorMessage } = await permission(session);
+        if (!allowed) throw new Error(errorMessage || "Not authorized!");
+      }
+    };
+
+    try {
+      handlePermissions(permissions, session);
+      return _.merge(serverSideResult, { props: { session } });
+    } catch (e) {
+      return {
+        props: {
+          session,
+          errorMessage: e.message,
+        },
+      };
+    }
   };
 };
 
