@@ -7,5 +7,5 @@ export const IS_ADMIN: Permission = async (session) => {
   const user = await prisma.user.findFirst({
     where: { ...session.user },
   });
-  return user.isAdmin;
+  return !!user && user.isAdmin;
 };
