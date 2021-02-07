@@ -12,7 +12,7 @@ npm install
 
 ## Environment
 
-Follow .env.example to create your own .env.local and set up next-auth. The Github provider requires
+Follow .env.example to create your own .env.local. The Github provider requires
 client id and secret, so you should authorise the app with your Github [here](https://github.com/settings/applications/new).
 
 ## Database (Prisma)
