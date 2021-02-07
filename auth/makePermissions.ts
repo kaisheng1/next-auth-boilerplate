@@ -3,17 +3,11 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from "next";
-import { getSession, Session } from "next-auth/client";
+import { getSession} from "next-auth/client";
 import _ from "lodash";
 import config from "./config";
+import {Permission} from './permissions'
 
-export type PermissionResult = {
-  allowed: Boolean | Promise<Boolean>;
-  errorMessage?: string;
-};
-export type Permission = (
-  session: Session
-) => PermissionResult | Promise<PermissionResult>;
 
 // A higher order function that makes a getServerSideProps function, handling authorization
 const makePermissions = (
