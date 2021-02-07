@@ -13,7 +13,7 @@ npm install
 ## Environment
 
 Follow .env.example to create your own .env.local. The Github provider requires
-client id and secret, so you should authorise the app with your Github [here](https://github.com/settings/applications/new).
+client id and secret, so you should authorise the app with your Github [here](https://github.com/settings/applications/new). The authorization callback should be {appUrl}/api/auth/callback/github.
 
 ## Database (Prisma)
 
