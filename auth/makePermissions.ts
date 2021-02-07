@@ -36,18 +36,11 @@ const makePermissions = (
       };
     }
 
-    const handlePermissions = async (
-      permissions: Permission[],
-      session: Session
-    ) => {
+    try {
       for (const permission of permissions) {
         const { allowed, errorMessage } = await permission(session);
         if (!allowed) throw new Error(errorMessage || "Not authorized!");
       }
-    };
-
-    try {
-      handlePermissions(permissions, session);
       return _.merge(serverSideResult, { props: { session } });
     } catch (e) {
       return {
