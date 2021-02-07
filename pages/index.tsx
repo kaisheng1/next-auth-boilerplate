@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import { signOut } from "next-auth/client";
 import makeAuthentication from "auth/makeAuthentication";
 
@@ -10,4 +9,4 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = makeAuthentication();
+export const getServerSideProps = makeAuthentication();

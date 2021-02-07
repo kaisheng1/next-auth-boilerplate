@@ -11,8 +11,8 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {
     providers: [
       Providers.GitHub({
-        clientId: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        clientId: process.env.GITHUB_CLIENT_ID || "",
+        clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
       }),
     ],
     adapter: Adapters.Prisma.Adapter({ prisma }),

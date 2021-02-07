@@ -1,5 +1,9 @@
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+import { AppProps } from "next/app";
 
-export default MyApp
+interface Props extends AppProps {}
+
+const MyApp: React.FC<Props> = ({ Component, pageProps }) => {
+  return <Component {...pageProps} />;
+};
+
+export default MyApp;
