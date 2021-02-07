@@ -1,4 +1,5 @@
 import { signIn } from "next-auth/client";
+import config from "auth/config";
 
 interface Props {}
 
@@ -8,7 +9,7 @@ const LoginPage: React.FC<Props> = () => {
       <button
         onClick={() =>
           signIn("github", {
-            callbackUrl: "/",
+            callbackUrl: config.routes.loginCallback,
           })
         }
       >
