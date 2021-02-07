@@ -37,10 +37,12 @@ const makePermissions = (
     }
 
     try {
+      // Check all the permissions
       for (const permission of permissions) {
         const { allowed, errorMessage } = await permission(session);
         if (!allowed) throw new Error(errorMessage || "Not authorized!");
       }
+
       return _.merge(serverSideResult, { props: { session } });
     } catch (e) {
       return {
