@@ -1,6 +1,6 @@
 export default {
   routes: {
-    login: "/login",
-    loginCallback: "/",
+    REDIRECT_IF_NOT_AUTHENTICATED: "/login",
+    REDIRECT_IF_AUTHENTICATED: "/",
   },
 };

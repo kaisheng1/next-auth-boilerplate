@@ -9,7 +9,7 @@ const LoginPage: React.FC<Props> = () => {
       <button
         onClick={() =>
           signIn("github", {
-            callbackUrl: config.routes.loginCallback,
+            callbackUrl: config.routes.REDIRECT_IF_AUTHENTICATED,
           })
         }
       >

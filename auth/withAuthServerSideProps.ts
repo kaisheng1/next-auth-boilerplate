@@ -25,7 +25,10 @@ const withAuthServerSideProps = (
     if (!session) {
       return {
         props: {},
-        redirect: { destination: config.routes.login, permanent: false },
+        redirect: {
+          destination: config.routes.REDIRECT_IF_NOT_AUTHENTICATED,
+          permanent: false,
+        },
       };
     }
 
