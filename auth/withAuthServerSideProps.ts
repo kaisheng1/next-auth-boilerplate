@@ -45,6 +45,7 @@ const withAuthServerSideProps = (
 
       return { props: { session } };
     } catch (e) {
+      // When catch an error (access denied), return a error message
       return {
         props: {
           session,
