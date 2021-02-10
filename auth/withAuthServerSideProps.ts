@@ -4,7 +4,7 @@ import {
   GetServerSidePropsResult,
 } from "next";
 import { getSession } from "next-auth/client";
-import _ from "lodash";
+import merge from "lodash/merge";
 import config from "./config";
 import { Permission } from "./permissions";
 
@@ -40,7 +40,7 @@ const withAuthServerSideProps = (
       // If getServerSideProps function exists, then merge with the results
       if (getServerSideProps) {
         const serverSideResult = await getServerSideProps(context);
-        return _.merge(serverSideResult, { props: { session } });
+        return merge(serverSideResult, { props: { session } });
       }
 
       return { props: { session } };
