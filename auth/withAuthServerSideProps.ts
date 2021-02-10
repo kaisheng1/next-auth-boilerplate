@@ -3,23 +3,22 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from "next";
-import { getSession} from "next-auth/client";
+import { getSession } from "next-auth/client";
 import _ from "lodash";
 import config from "./config";
-import {Permission} from './permissions'
+import { Permission } from "./permissions";
 
+export interface withAuthServerSidePropsOptions {
+  permissions?: Permission[];
+}
 
-// A higher order function that makes a getServerSideProps function, handling authorization
-const makePermissions = (
-  permissions: Permission[],
-  getServerSideProps?: GetServerSideProps
+const withAuthServerSideProps = (
+  getServerSideProps?: GetServerSideProps,
+  options?: withAuthServerSidePropsOptions
 ) => {
   return async (
     context: GetServerSidePropsContext
   ): Promise<GetServerSidePropsResult<{ [key: string]: any }>> => {
-    const serverSideResult = getServerSideProps
-      ? await getServerSideProps(context)
-      : { props: {} };
     const session = await getSession(context);
 
     // If the user is not authenticated, redirects to the login page
@@ -32,12 +31,19 @@ const makePermissions = (
 
     try {
       // Check all the permissions
+      const permissions = (options?.permissions || []) as Permission[];
       for (const permission of permissions) {
         const { allowed, errorMessage } = await permission(session);
         if (!allowed) throw new Error(errorMessage || "Not authorized!");
       }
 
-      return _.merge(serverSideResult, { props: { session } });
+      // If getServerSideProps function exists, then merge with the results
+      if (getServerSideProps) {
+        const serverSideResult = await getServerSideProps(context);
+        return _.merge(serverSideResult, { props: { session } });
+      }
+
+      return { props: { session } };
     } catch (e) {
       return {
         props: {
@@ -49,4 +55,4 @@ const makePermissions = (
   };
 };
 
-export default makePermissions;
+export default withAuthServerSideProps;
