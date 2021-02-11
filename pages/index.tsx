@@ -1,11 +1,12 @@
 import withAuthServerSideProps from "auth/withAuthServerSideProps";
+import Layout from "components/layouts/Layout";
 import { signOut } from "next-auth/client";
 
 export default function Home() {
   return (
-    <div>
+    <Layout>
       Home <button onClick={() => signOut()}>Logout</button>
-    </div>
+    </Layout>
   );
 }
 

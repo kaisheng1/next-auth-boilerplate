@@ -1,11 +1,13 @@
 import { signIn } from "next-auth/client";
 import config from "auth/config";
+import { NextPage } from "next";
+import Layout from "components/layouts/Layout";
 
 interface Props {}
 
-const LoginPage: React.FC<Props> = () => {
+const LoginPage: NextPage<Props> = () => {
   return (
-    <div>
+    <Layout>
       <button
         onClick={() =>
           signIn("github", {
@@ -15,7 +17,7 @@ const LoginPage: React.FC<Props> = () => {
       >
         Login
       </button>
-    </div>
+    </Layout>
   );
 };
 
