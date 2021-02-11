@@ -3,14 +3,20 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from "next";
-import { getSession } from "next-auth/client";
+import { getSession, Session } from "next-auth/client";
 import merge from "lodash/merge";
 import { Permission } from "./permissions";
-import { getAuthError } from "./error";
+import { AuthError, getAuthError } from "./error";
 
 export interface WithAuthServerSidePropsOptions {
   permissions?: Permission[];
 }
+
+export type AuthServerSideProps =
+  | { error: AuthError }
+  | {
+      session: Session;
+    };
 
 const withAuthServerSideProps = (
   getServerSideProps?: GetServerSideProps,
@@ -18,7 +24,7 @@ const withAuthServerSideProps = (
 ) => {
   return async (
     context: GetServerSidePropsContext
-  ): Promise<GetServerSidePropsResult<{ [key: string]: any }>> => {
+  ): Promise<GetServerSidePropsResult<AuthServerSideProps>> => {
     const session = await getSession(context);
 
     // If the user is not authenticated, redirects to the login page
@@ -45,8 +51,8 @@ const withAuthServerSideProps = (
 
     // If getServerSideProps function exists, then merge with the results
     if (getServerSideProps) {
-      const serverSideResult = await getServerSideProps(context);
-      return merge(serverSideResult, { props: { session } });
+      const serverSidePropsResult = await getServerSideProps(context);
+      return merge(serverSidePropsResult, { props: { session } });
     }
 
     return { props: { session } };
