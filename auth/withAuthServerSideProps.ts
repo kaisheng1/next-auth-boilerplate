@@ -8,13 +8,13 @@ import merge from "lodash/merge";
 import { Permission } from "./permissions";
 import { getAuthError } from "./error";
 
-export interface withAuthServerSidePropsOptions {
+export interface WithAuthServerSidePropsOptions {
   permissions?: Permission[];
 }
 
 const withAuthServerSideProps = (
   getServerSideProps?: GetServerSideProps,
-  options?: withAuthServerSidePropsOptions
+  options?: WithAuthServerSidePropsOptions
 ) => {
   return async (
     context: GetServerSidePropsContext
