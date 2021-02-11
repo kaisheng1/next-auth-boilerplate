@@ -1,12 +1,12 @@
 import config from "auth/config";
-import { AuthError } from "auth/error";
 import Layout from "components/layouts/Layout";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { CustomError } from "types";
 
 interface Props {
-  error: AuthError;
+  error: CustomError;
 }
 
 const Error: NextPage<Props> = ({ error }) => {

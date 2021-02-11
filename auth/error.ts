@@ -1,12 +1,12 @@
+import { CustomError } from "types";
+
 /* Error Types */
 const AUTHENTICATION = "authentication";
 const AUTHORIZATION = "authorization";
 
 export type AuthType = typeof AUTHENTICATION | typeof AUTHORIZATION;
 
-export interface AuthError {
-  statusCode: number;
-  message: string;
+export interface AuthError extends CustomError {
   type: AuthType;
 }
 
@@ -24,7 +24,7 @@ export const getAuthError = (type: AuthType, payload?: AuthErrorOptions) => {
   }
 };
 
-const getAuthenticationError = (message?: string) => {
+const getAuthenticationError = (message?: string): AuthError => {
   return {
     type: AUTHENTICATION,
     statusCode: 401,
@@ -32,7 +32,7 @@ const getAuthenticationError = (message?: string) => {
   };
 };
 
-const getAuthorizationError = (message?: string) => {
+const getAuthorizationError = (message?: string): AuthError => {
   return {
     type: AUTHORIZATION,
     statusCode: 403,
