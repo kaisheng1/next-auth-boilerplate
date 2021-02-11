@@ -1,9 +1,13 @@
 import { IS_ADMIN } from "auth/permissions";
-import withAuthServerSideProps from "auth/withAuthServerSideProps";
+import withAuthServerSideProps, {
+  AuthPageProps,
+} from "auth/withAuthServerSideProps";
 import Layout from "components/layouts/Layout";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 
-const Dashboard = () => {
+interface Props extends AuthPageProps {}
+
+const Dashboard: NextPage<Props> = () => {
   return <Layout>This is admin dashboard</Layout>;
 };
 

@@ -12,11 +12,10 @@ export interface WithAuthServerSidePropsOptions {
   permissions?: Permission[];
 }
 
-export type AuthServerSideProps =
-  | { error: AuthError }
-  | {
-      session: Session;
-    };
+export interface AuthPageProps {
+  error?: AuthError;
+  session?: Session;
+}
 
 const withAuthServerSideProps = (
   getServerSideProps?: GetServerSideProps,
@@ -24,7 +23,7 @@ const withAuthServerSideProps = (
 ) => {
   return async (
     context: GetServerSidePropsContext
-  ): Promise<GetServerSidePropsResult<AuthServerSideProps>> => {
+  ): Promise<GetServerSidePropsResult<AuthPageProps>> => {
     const session = await getSession(context);
 
     // If the user is not authenticated, redirects to the login page
