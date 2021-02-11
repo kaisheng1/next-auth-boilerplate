@@ -21,5 +21,5 @@ To include your own database, modify the datasource in prisma/schema.prisma. Aft
 apply the migrations:
 
 ```bash
-npx prisma dev --preview-feature
+npx prisma migrate dev --preview-feature
 ```
